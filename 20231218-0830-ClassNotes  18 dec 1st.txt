@@ -1,0 +1,118 @@
+Set operators
+Case
+Coalesce
+nullif
+examples
+********************************************************************************
+
+Joins: [V.V.Imp]
+------
+
+In general most of the people will feeel that joins are complex, Join are very simple if you can understand the basics.
+
+When students are going to join the course --> I will ask one question --> how much knowledge you are having on SQL --> NO knowledge --> I am having knowledge upto joins 
+
+As per the requirement whenever you want to perform merging oprations in horizantol direction then we need to use JOINS.
+
+As part of applying joins we can able to use either two or more than two tables.
+
+while performing join in between both the tables by using a particular column it need to compare the data , as a user you need to specify "join condition" in sql query to specify in between what columns you want to do the comparision.
+
+To sepcify the join condition we need to use ON keyword.
+
+
+syntax we need to follow for the joins: [50% of joins]
+----------------------------------------
+
+Select E.Eid,E.Ename,E.did,D.dname From Employee_main E
+JOIN Dep D
+ON E.Did=D.Did;
+
+Error - Did column is abiguous
+
+How many ways we can able to represent column names in sql queries:
+
+1. columnname [did]
+2. tablename.columnname [dep.did]
+3. databasename.tablename.columnname [cde_b22.dep.did]
+4. tablealiasname.columnname [d.did]
+
+For all the columns no need to given tablename.columnname , it is not mandatory. But as per best practices in real time projects better to given tablename.columnname for each and every column in select statement.
+
+Note: 1. While applying join condition no need to give same column names.
+	  2. while applying join condition we need to worry about datatype of the column [join condition columns should contain same datatype]
+	  3. If you want to apply join condition we need to understand about relationship between both the tables [PDM]
+	  
+srinivas:
+----------
+select X.a,X.b,Y.c,Y.d,Y.e, from X
+join Y
+on x.id=Y.id
+
+after 6 months --> raju is new the person joined in to our project --> he opepend above query --> 
+
+desc x;
+desc y;
+
+step1: In between two tables we are giving JOIN keyword
+step2: whenever we are giving join conditions compulsary we have to give Join condition
+step3: to give join condition we have to use ON keyword.
+step4: in select statement whatever the columns you want to specify we can specify only those columns
+step5: while giving join condition or columns name in select statement better to give it as 
+		a. tablename.columnname or
+		b. tablealiasname.columnname
+	
+Types of Joins: [50% of your joins]
+--------------
+Inner Join
+Outer Join
+	Left outer join
+	Right outer join
+	Full outer Join
+cross Join
+
+note: whenever you are giving JOIN keyword by default it will act as INNER JOIN.
+
+Select E.Eid,E.Ename,E.did,D.dname From Employee_main E
+JOIN Dep D
+ON E.Did=D.Did;
+
+Outside of database --> Cde_b22,cde_b23,cde_b25; --> In between multple database tables also we can able to apply the joins.
+*************************************************************************************
+
+use cde_b22;
+
+Select E.Eid,E.Ename,E.did,D.dname From cde_b22.Employee_main E
+JOIN cde_b23.Dep D
+ON E.Ename=D.Did;
+--0 records
+
+
+*************************************************************************************
+
+Inner Join:
+-----------
+As per the requirement while performing Join operations based on join condition if you want to get only the "matched records" then we need to use INNER JOIN.
+
+Select E.Eid,E.Ename,E.did,D.dname From .Employee_main E
+INNER JOIN .Dep D
+ON E.Did=D.Did;
+
+Outer Join:
+-----------
+As per the requirement while performing Join operations based on join condition if you want to get only the "matched records and unmatched records" then we need to use OUTER JOIN.
+
+Left outer Join:
+----------------
+
+Select E.Eid,E.Ename,E.did,D.dname From Employee_main E Left outer JOIN Dep D ON E.Did=D.Did;
+
+Step1: while using left outer join it will give all the records (matched or unmatched) of left table 
+step2: From right table wherever we are having matched records it will populate correspoindg values from right table into your output.
+Step3: From right table if there are any unmatched records it will populate correspoindg values from right table as NULL values.
+
+Note: 1. while giving tabname.columnname or tablealiasname.columnname you should be very cautious, which means you need to understand requirement accordingly you need to pass tablename or tablealiasname
+2. while using outer join we need to be cautious for table positions.
+
+
+Hot we can able to find out which table should give it as left table and which table should give it as right table??? [next session]
