@@ -1,0 +1,116 @@
+Bigquery archiecture / Columnar format & Row format data:
+
+Colosus
+Dremel
+	Root server
+	Mixers
+	Leaf nodes (slots)
+Jupitor
+Borge
+**************************************************************************************
+Created tables / loaded the data into the table in Bigquery
+
+1. Console [queries]
+2. console [conole options - create database/create tables [upload/gcs/drive/empty table])
+3. Cloud SDK Shell
+
+How to perform Bigquery activities by using Cloud SDK Shell:
+------------------------------------------------------------
+
+Gcloud shell:
+	1. Start --> google cloud sdk shell
+	2. Console --> activate our cloud sdk shell
+	
+1. I want to see available databses in bigquery: bq ls 
+2. I want to see available tables in a database: bq ls databasename [eg: bq ls cdeb22]
+3. I want to create a database: bq mk -d databasename [eg: bq mk -d samplesdk]
+4. I want to create a table in database: bq mk -t databasename.tablename schema
+		eg: bq mk -t samplesdk.emp eid:integer,ename:string,sal:integer,did:integer
+5. I want to see structure of the table: bq show --schema databasename.tablename
+		eg: bq show --schema samplesdk.emp
+6. If you want to see the structure in json format : bq show --format=prettyjson databasename.tablename
+		eg: bq show --format=prettyjson samplesdk.emp
+7. to load data from file to your table: bq load --source_format=CSV --autodetect databasename.tablename pathofthefile
+		eg: bq load --source_format=CSV --skip_leading_rows=1 samplesdk.emp D:\QT\BQ\emp.csv
+		eg: bq load --source_format=CSV --autodetect samplesdk.emp_ad D:\QT\emp.csv  [by using this command you can able to create structure and also you can able to load the data]
+		
+		Assignment:
+		-----------
+		1. create one more emp table
+		2. load data from gcs bucket file to your table
+		cdeb22 - emp.csv ==> gs://cdeb22/emp.csv
+		
+		Option1: create table structure then load the data 
+		bq mk -t samplesdk.emp2 eid:integer,ename:string,sal:integer,did:integer
+		bq load --source_format=CSV --skip_leading_rows=1 samplesdk.emp2 gs://cdeb22/emp.csv
+		
+		Option2: 
+		bq load --source_format=CSV --autodetect samplesdk.emp3 gs://cdeb22/emp.csv
+		
+8.  select * from tablename;
+	bq query --use_legacy_sql=false "select * from samplesdk.emp_ad"
+	
+From cloud sdk shell:
+1) create emp_10 table by using below structure 
+eid integer
+ename string
+
+2) insert the data by using insert commands
+
+	bq query --use_legacy_sql=false "create table samplesdk.emp_10(eid integer,ename string)"
+	bq query --use_legacy_sql=false "insert into samplesdk.emp_10 values(1,'srinu'),(2,'vasu')"
+	bq query --use_legacy_sql=false "select * from samplesdk.emp_10"
+	
+Note: whatever the queries you practiced in MYSQL please run all those queries from cloud sdk shell by using "bq query" command.
+
+3) I want to add new column X in to emp_10 table
+		
+	bq query --use_legacy_sql=false "alter table samplesdk.emp_10 add column x integer"
+	bq query --use_legacy_sql=false "select * from samplesdk.emp_10"
+	
+	bq query --use_legacy_sql=false "update samplesdk.emp_10 set x=10 where 1=1"
+	
+	bq query --use_legacy_sql=false "drop table samplesdk.emp_10"
+	
+bq query --use_legacy_sql=false "create schema qtsample.sample_sdk;"
+
+bq query --use_legacy_sql=false "create table if not exists cdesrinib22.samplesdk.employee1( \
+  eid integer, 
+  ename string, 
+  sal integer, 
+  did integer 
+);"
+
+bq query --use_legacy_sql=false "insert into samplesdk.employee1 values(1,'srinu',1000,10),(2,'vasu',2000,10);"
+
+bq query --use_legacy_sql=false "select * from samplesdk.employee1;"
+
+bq query --use_legacy_sql=false "alter table samplesdk.employee1 add column id1 integer;"
+
+bq query --use_legacy_sql=false "select * from samplesdk.employee1;"
+
+bq query --use_legacy_sql=false "alter table samplesdk.employee1 drop column id1;"
+
+bq query --use_legacy_sql=false "drop table samplesdk.employee1;"
+
+bq query --use_legacy_sql=false "update samplesdk.employee1 set ename='xx' where eid=1;"
+
+bq query --use_legacy_sql=false "select * from samplesdk.employee1;"
+
+bq query --use_legacy_sql=false "delete from samplesdk.employee1 where eid=1 ;"
+
+bq query --use_legacy_sql=false "select * from sample_sdk.employee1;"
+
+bq query --use_legacy_sql=false "ALTER TABLE samplesdk.employee1 ADD PRIMARY KEY(eid) NOT ENFORCED;"
+
+bq query --use_legacy_sql=false "ALTER TABLE samplesdk.employee1 RENAME TO employee2"
+
+bq query --use_legacy_sql=false "ALTER TABLE samplesdk.employee1 DROP PRIMARY KEY;"
+
+bq query --use_legacy_sql=false "select * from samplesdk.employee1;"
+
+
+Assignment:
+-----------
+Create backup tables by usinga all the approaches from cloudsdk shell by using bq query options
+***************************************************************************************************************
